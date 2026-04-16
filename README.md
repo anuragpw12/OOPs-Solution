@@ -12,7 +12,7 @@ This solution is designed with **real-world examples**, **clean code practices**
 
 # 🚀 What This Project Covers
 
-## 🔹 1. Core OOP Concepts (Console आधारित Learning)
+## 🔹 1. Core OOP Concepts (Console Learning)
 
 An interactive console application to **learn + execute** core OOP concepts:
 
