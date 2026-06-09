@@ -1,0 +1,298 @@
+OOPs Coding question
+-----------------------------------------------------------------------------------------
+1.
+public class TestStatic
+{
+    public static int TestValue;
+
+    public TestStatic()
+    {
+        if (TestValue == 0)
+        {
+            TestValue = 5;
+        }
+    }
+
+    static TestStatic()
+    {
+        if (TestValue == 0)
+        {
+            TestValue = 10;
+        }
+    }
+
+    public void Print()
+    {
+        if (TestValue == 5)
+        {
+            TestValue = 6;
+        }
+        Console.WriteLine("TestValue : " + TestValue);
+    }
+
+    public static void Main(string[] args)
+    {
+        TestStatic t = new TestStatic();
+        t.Print();
+    }
+}
+
+Output - 10
+-----------------------------------------------------------------------------------------
+
+2. 
+
+using System;
+
+class Demo
+{
+    static int x = Initialize();
+
+    static int Initialize()
+    {
+        Console.WriteLine("Static Field Initialized");
+        return 5;
+    }
+
+    static Demo()
+    {
+        Console.WriteLine("Static Constructor Called");
+        x = x + 10;
+    }
+
+    public Demo()
+    {
+        Console.WriteLine("Instance Constructor Called");
+        x = x + 2;
+    }
+
+    public static void Print()
+    {
+        Console.WriteLine("Value of x: " + x);
+    }
+
+    static void Main()
+    {
+        Demo.Print();
+        Demo d1 = new Demo();
+        Demo.Print();
+    }
+}
+
+Output:
+
+Static Field Initialized
+Static Constructor Called
+Value of x: 15
+Instance Constructor Called
+Value of x: 17
+
+
+
+-----------------------------------------------------------------------------------------
+3.
+
+using System;
+
+class BaseClass
+{
+    static BaseClass()
+    {
+        Console.WriteLine("Base Static Constructor");
+    }
+
+    public BaseClass()
+    {
+        Console.WriteLine("Base Instance Constructor");
+    }
+}
+
+class DerivedClass : BaseClass
+{
+    static DerivedClass()
+    {
+        Console.WriteLine("Derived Static Constructor");
+    }
+
+    public DerivedClass()
+    {
+        Console.WriteLine("Derived Instance Constructor");
+    }
+
+    static void Main()
+    {
+        DerivedClass obj = new DerivedClass();
+    }
+}
+
+Output :
+Derived Static Constructor
+Base Static Constructor
+Base Instance Constructor
+Derived Instance Constructor
+
+-----------------------------------------------------------------------------------------
+4.
+using System;
+
+class Parent
+{
+    public static int x = 5;
+
+    static Parent()
+    {
+        x += 5;
+        Console.WriteLine("Parent Static: " + x);
+    }
+
+    public Parent()
+    {
+        x += 2;
+        Console.WriteLine("Parent Instance: " + x);
+    }
+}
+
+class Child : Parent
+{
+    public static int x = 10;
+
+    static Child()
+    {
+        x += 10;
+        Console.WriteLine("Child Static: " + x);
+    }
+
+    public Child()
+    {
+        x += 3;
+        Console.WriteLine("Child Instance: " + x);
+    }
+
+    static void Main()
+    {
+        Child obj = new Child();
+        Console.WriteLine("Final Parent.x: " + Parent.x);
+        Console.WriteLine("Final Child.x: " + Child.x);
+    }
+}
+
+Output - 
+
+Child Static: 20
+Parent Static: 10
+Parent Instance: 12
+Child Instance: 23
+Final Parent.x: 12
+Final Child.x: 23
+
+There are two different x variables:
+| Variable | Belongs To   | Value |
+| -------- | ------------ | ----- |
+| Parent.x | Parent class | 12    |
+| Child.x  | Child class  | 23    |
+
+-----------------------------------------------------------------------------------------
+5.
+
+using System;
+
+class BaseClass
+{
+    public BaseClass()
+    {
+        Console.WriteLine("Base Constructor Start");
+        Show();
+        Console.WriteLine("Base Constructor End");
+    }
+
+    public virtual void Show()
+    {
+        Console.WriteLine("Base Show");
+    }
+}
+
+class DerivedClass : BaseClass
+{
+    private string message = "Hello from Derived";
+
+    public DerivedClass()
+    {
+        Console.WriteLine("Derived Constructor");
+    }
+
+    public override void Show()
+    {
+        Console.WriteLine(message);
+    }
+
+    static void Main()
+    {
+        DerivedClass obj = new DerivedClass();
+    }
+}
+
+
+Output - 
+	Base Constructor Start
+	Hello from Derived
+	Base Constructor End
+	Derived Constructor
+	
+Note - Never call virtual methods from constructors.
+
+-----------------------------------------------------------------------------------------
+6.
+
+using System;
+
+class Counter
+{
+    public static int TotalCount = 0;
+    public int InstanceCount = 0;
+
+    public Counter()
+    {
+        TotalCount++;
+        InstanceCount++;
+        Console.WriteLine("Constructor -> Total: " + TotalCount + 
+                          ", Instance: " + InstanceCount);
+    }
+
+    public void Increment()
+    {
+        TotalCount++;
+        InstanceCount++;
+        Console.WriteLine("Increment -> Total: " + TotalCount + 
+                          ", Instance: " + InstanceCount);
+    }
+}
+
+class Program
+{
+    static void Main()
+    {
+        Counter c1 = new Counter();
+        Counter c2 = new Counter();
+
+        c1.Increment();
+        c2.Increment();
+
+        Console.WriteLine("Final c1 InstanceCount: " + c1.InstanceCount);
+        Console.WriteLine("Final c2 InstanceCount: " + c2.InstanceCount);
+        Console.WriteLine("Final TotalCount: " + Counter.TotalCount);
+    }
+}
+
+
+Output- 
+
+	Constructor -> Total: 1, Instance: 1
+	Constructor -> Total: 2, Instance: 1
+	Increment -> Total: 3, Instance: 2
+	Increment -> Total: 4, Instance: 2
+	Final c1 InstanceCount: 2
+	Final c2 InstanceCount: 2
+	Final TotalCount: 4
+
+
+
